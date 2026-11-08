@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "soulink_nuzlocke",
+  "version": "${version}",
+  "name": "Soulink Nuzlocke",
+  "description": "Nuzlocke rules for Cobblemon: one catch per biome, soul-linked Pokemon, faint = released.",
+  "authors": ["pokehub"],
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.pokehub.soulink.SoulinkNuzlocke"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "cobblemon": ">=1.7.0"
+  }
+}
