@@ -22,3 +22,16 @@ jobs:
         with:
           name: soulink-nuzlocke
           path: build/libs/*.jar
+      - name: Publish jar to the "jar" branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          JAR=$(ls build/libs/*.jar | grep -v sources | head -1)
+          mkdir -p /tmp/out && cp "$JAR" /tmp/out/
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git checkout --orphan jar
+          git rm -rf --quiet . || true
+          cp /tmp/out/*.jar .
+          git add *.jar
+          git commit -m "Built jar from ${{ github.sha }}"
+          git push -f origin jar
