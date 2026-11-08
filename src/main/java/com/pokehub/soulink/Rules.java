@@ -103,7 +103,7 @@ public class Rules {
     }
 
     private static String nameOf(Pokemon p) {
-        return p.getDisplayName().getString();
+        return p.getDisplayName(false).getString();
     }
 
     // ---------------------------------------------------------------- catching
