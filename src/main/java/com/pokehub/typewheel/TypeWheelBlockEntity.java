@@ -3,6 +3,7 @@ package com.pokehub.typewheel;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -160,12 +161,17 @@ public class TypeWheelBlockEntity extends BlockEntity {
         MinecraftServer server = sl.getServer();
         ServerPlayer who = spinner == null ? null : server.getPlayerList().getPlayer(spinner);
         double r = WheelConfig.INSTANCE.announceRadius;
+        WheelResultPayload payload = new WheelResultPayload(result, spinnerName);
         for (ServerPlayer p : sl.players()) {
-            if (p == who || (r > 0 && p.distanceToSqr(c) <= r * r)) p.sendSystemMessage(msg);
-        }
-        if (who != null) {
-            who.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal("The wheel has chosen").withStyle(ChatFormatting.GRAY)));
-            who.connection.send(new ClientboundSetTitleTextPacket(typeText.copy()));
+            if (p == who || (r > 0 && p.distanceToSqr(c) <= r * r)) {
+                p.sendSystemMessage(msg);
+                if (ServerPlayNetworking.canSend(p, WheelResultPayload.TYPE)) {
+                    ServerPlayNetworking.send(p, payload);
+                } else if (p == who) {
+                    p.connection.send(new ClientboundSetSubtitleTextPacket(Component.literal(spinnerName + " spun the Type Wheel!").withStyle(ChatFormatting.GRAY)));
+                    p.connection.send(new ClientboundSetTitleTextPacket(typeText.copy()));
+                }
+            }
         }
         for (String cmd : WheelConfig.INSTANCE.commandsOnLand) {
             if (cmd == null || cmd.isBlank()) continue;

@@ -2,6 +2,7 @@ package com.pokehub.typewheel;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -40,6 +41,7 @@ public class TypeWheelMod implements ModInitializer {
     @Override
     public void onInitialize() {
         WheelConfig.load();
+        PayloadTypeRegistry.playS2C().register(WheelResultPayload.TYPE, WheelResultPayload.CODEC);
         WHEEL = Registry.register(BuiltInRegistries.BLOCK, id("type_wheel"), new TypeWheelBlock(props()));
         PART = Registry.register(BuiltInRegistries.BLOCK, id("type_wheel_part"), new TypeWheelPartBlock(props()));
         WHEEL_ITEM = Registry.register(BuiltInRegistries.ITEM, id("type_wheel"),
