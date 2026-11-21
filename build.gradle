@@ -15,8 +15,8 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-    modImplementation "com.cobblemon:fabric:${project.cobblemon_version}"
+    modCompileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    modCompileOnly "com.cobblemon:fabric:${project.cobblemon_version}"
 }
 processResources {
     inputs.property "version", project.version
