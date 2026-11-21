@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "typewheel",
+  "version": "${version}",
+  "name": "Type Wheel",
+  "description": "A big spinning wheel with all 18 Pokemon types. Right-click to spin.",
+  "authors": ["pokehub"],
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.pokehub.typewheel.TypeWheelMod"],
+    "client": ["com.pokehub.typewheel.client.TypeWheelClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": { "cobblemon": "*" }
+}
