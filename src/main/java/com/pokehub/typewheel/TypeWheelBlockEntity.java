@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -161,7 +162,22 @@ public class TypeWheelBlockEntity extends BlockEntity {
         MinecraftServer server = sl.getServer();
         ServerPlayer who = spinner == null ? null : server.getPlayerList().getPlayer(spinner);
         double r = WheelConfig.INSTANCE.announceRadius;
-        WheelResultPayload payload = new WheelResultPayload(result, spinnerName);
+        WheelConfig cfg = WheelConfig.INSTANCE;
+        String reward = "";
+        if (who != null && cfg.givePokemon && FabricLoader.getInstance().isModLoaded("cobblemon")) {
+            try {
+                String got = CobblemonHook.giveRandom(who, type, cfg.pokemonLevel, cfg.allowLegendaries, cfg.baseStageOnly);
+                if (got != null) reward = "Lv. " + cfg.pokemonLevel + " " + got;
+            } catch (Throwable t) {
+                TypeWheelMod.LOGGER.error("Type Wheel could not give a Pokemon", t);
+            }
+        }
+        if (!reward.isEmpty()) {
+            msg.append(Component.literal(" They got a ").withStyle(ChatFormatting.GRAY))
+                    .append(Component.literal(reward).withStyle(st -> st.withColor(TextColor.fromRgb(color)).withBold(true)))
+                    .append(Component.literal("!").withStyle(ChatFormatting.GRAY));
+        }
+        WheelResultPayload payload = new WheelResultPayload(result, spinnerName, reward);
         for (ServerPlayer p : sl.players()) {
             if (p == who || (r > 0 && p.distanceToSqr(c) <= r * r)) {
                 p.sendSystemMessage(msg);

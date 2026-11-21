@@ -13,13 +13,15 @@ public final class ResultOverlay {
     private static long start = -1L;
     private static int typeIndex;
     private static String spinner = "";
+    private static String reward = "";
 
     private ResultOverlay() {}
 
-    public static void show(int type, String name) {
+    public static void show(int type, String name, String got) {
         if (type < 0 || type >= TypeWheelBlockEntity.TYPES.length) return;
         typeIndex = type;
         spinner = name == null ? "" : name;
+        reward = got == null ? "" : got;
         start = Util.getMillis();
     }
 
@@ -101,6 +103,21 @@ public final class ResultOverlay {
             float a = sub * fade;
             int y = cy - bandH - 11 + (int) ((1.0F - sub) * 6.0F);
             g.drawString(font, line, cx - font.width(line) / 2, y, argb(a, 0xFFE27A), true);
+        }
+
+        // reward line under the band: "<player> got a Lv. 5 Charmander!"
+        float rw = outBack((ms - 900L) / 400.0F);
+        if (!reward.isEmpty() && ms > 900L && rw > 0.01F && fade > 0.05F) {
+            String line = (spinner.isEmpty() ? "Someone" : spinner) + " got a " + reward + "!";
+            int tw = font.width(line);
+            float sc = 1.5F * rw;
+            int by = cy + bandH + 6;
+            g.fill(cx - (int) (tw * 0.75F) - 8, by, cx + (int) (tw * 0.75F) + 8, by + 20, argb(0.6F * fade * Math.min(1.0F, rw), 0x000000));
+            g.pose().pushPose();
+            g.pose().translate(cx, by + 10, 0.0F);
+            g.pose().scale(sc, sc, 1.0F);
+            g.drawString(font, line, -tw / 2, -font.lineHeight / 2 + 1, argb(fade, 0xFFFFFF), true);
+            g.pose().popPose();
         }
     }
 }

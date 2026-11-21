@@ -18,6 +18,14 @@ public class WheelConfig {
     public int cooldownSeconds = 0;
     /** Players within this many blocks see the result in chat (0 = only the spinner). */
     public int announceRadius = 48;
+    /** Give the spinner a random Pokemon of the type the wheel lands on (needs Cobblemon). */
+    public boolean givePokemon = true;
+    /** Level of the Pokemon given. */
+    public int pokemonLevel = 5;
+    /** Allow legendaries, mythicals, ultra beasts and paradox Pokemon as rewards. */
+    public boolean allowLegendaries = false;
+    /** Only give first-stage Pokemon (Charmander, not Charizard). */
+    public boolean baseStageOnly = true;
     /** Server commands run when the wheel lands. %player% and %type% are filled in. */
     public List<String> commandsOnLand = new ArrayList<>();
 

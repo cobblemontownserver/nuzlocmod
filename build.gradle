@@ -5,6 +5,8 @@ version = project.mod_version
 group = project.maven_group
 base { archivesName = project.archives_base_name }
 repositories {
+    maven { name = "Impact Dev (Cobblemon)"; url = "https://maven.impactdev.net/repository/development/" }
+    maven { name = "Modrinth"; url = "https://api.modrinth.com/maven"; content { includeGroup "maven.modrinth" } }
     maven { url = "https://maven.fabricmc.net/" }
     mavenCentral()
 }
@@ -13,6 +15,8 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    modImplementation "com.cobblemon:fabric:${project.cobblemon_version}"
 }
 processResources {
     inputs.property "version", project.version

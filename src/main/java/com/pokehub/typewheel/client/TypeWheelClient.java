@@ -12,7 +12,7 @@ public class TypeWheelClient implements ClientModInitializer {
     public void onInitializeClient() {
         BlockEntityRendererRegistry.register(TypeWheelMod.WHEEL_BE, TypeWheelRenderer::new);
         ClientPlayNetworking.registerGlobalReceiver(WheelResultPayload.TYPE, (payload, context) ->
-                context.client().execute(() -> ResultOverlay.show(payload.typeIndex(), payload.spinner())));
+                context.client().execute(() -> ResultOverlay.show(payload.typeIndex(), payload.spinner(), payload.reward())));
         HudRenderCallback.EVENT.register((graphics, delta) -> ResultOverlay.render(graphics));
     }
 }
