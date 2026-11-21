@@ -20,6 +20,8 @@ public class WheelConfig {
     public int announceRadius = 48;
     /** Give the spinner a random Pokemon of the type the wheel lands on (needs Cobblemon). */
     public boolean givePokemon = true;
+    /** Show which Pokemon was given in chat and on screen (off = it stays a surprise). */
+    public boolean announcePokemon = false;
     /** Level of the Pokemon given. */
     public int pokemonLevel = 5;
     /** Allow legendaries, mythicals, ultra beasts and paradox Pokemon as rewards. */

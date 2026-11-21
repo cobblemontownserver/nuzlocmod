@@ -167,7 +167,7 @@ public class TypeWheelBlockEntity extends BlockEntity {
         if (who != null && cfg.givePokemon && FabricLoader.getInstance().isModLoaded("cobblemon")) {
             try {
                 String got = CobblemonHook.giveRandom(who, type, cfg.pokemonLevel, cfg.allowLegendaries, cfg.baseStageOnly);
-                if (got != null) reward = "Lv. " + cfg.pokemonLevel + " " + got;
+                if (got != null && cfg.announcePokemon) reward = "Lv. " + cfg.pokemonLevel + " " + got;
             } catch (Throwable t) {
                 TypeWheelMod.LOGGER.error("Type Wheel could not give a Pokemon", t);
             }
